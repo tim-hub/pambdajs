@@ -30,7 +30,7 @@ export class Orchestrator {
   private async spawn(i: number, pureFunction: Function, data: any[]): Promise<IResult> {
     return new Promise((resolve, reject) => {
       const child = this.fork(pureFunction, i, i.toString())
-      child.send({ data: data[i] }, (error => {
+      child.send({ data: data }, (error => {
         if (error) {
           reject(error);
         }
@@ -46,14 +46,19 @@ export class Orchestrator {
     })
   }
 
-  public async map(pureFunction: Function, data: any[]) {
-    this.results = new Array(data.length)
-    for (let i = 0; i < this.results.length; i++) {
-      const r =  await this.spawn(i, pureFunction, data);
-      console.log(r, '##rr')
-      this.results[r.index] = r.data;
-    }
-    return this.results
+  public async map(pureFunction: Function, data: any[]): Promise<any[]> {
+    const results = new Array(data.length)
+    await Promise.all(
+      data.map(
+        async (item, i)=>{
+          const r = await this.spawn(i, pureFunction, item)
+          console.log(r, '##rr')
+          results[r.index] = r.data;
+          return r;
+        }
+      )
+    )
+    return results
   }
 
   public cleanup() {
