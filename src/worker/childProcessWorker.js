@@ -1,3 +1,8 @@
+/**
+ * I am a hard working worker, lol
+ * @param data:any[]
+ * @returns {{data: any[], index: string}}
+ */
 const childProcessWorker = (data) => {
   if (process.argv[2]) {
     console.log(`Child Process ${process.argv[2]} executed`)
@@ -12,10 +17,14 @@ const childProcessWorker = (data) => {
   const evalString = `
   const params = ${JSON.stringify(data)};
 ` + theFunction + `;
-    ${theFunctionName}(params);`
+  params.map((p) => (
+    ${theFunctionName}(p)
+  ));
+  `// do the loop in an independent worker
 
   console.log(evalString)
   const result = eval(evalString)
+  console.log(result)
   return {
     index: theIndex,
     data: result,

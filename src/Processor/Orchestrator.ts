@@ -1,6 +1,7 @@
 import * as os from 'os'
 import { ChildProcess, fork, execSync } from 'child_process'
-import { rejects } from 'assert'
+import { orchestrate } from '../utils/orchestrate'
+import * as path from 'path';
 
 interface IResult {
   index: number;
@@ -8,10 +9,8 @@ interface IResult {
 }
 
 export class Orchestrator {
-  modulePath: string = 'src/Processor/childProcessWorker.js'
+  modulePath: string = path.resolve( 'src/worker/childProcessWorker.js')
   processCount: number = os.cpus().length
-  children: ChildProcess[] = []
-  results: IResult[] = []
 
   constructor(processCount = os.cpus().length, modulePath?: string) {
     this.processCount = processCount
@@ -19,6 +18,54 @@ export class Orchestrator {
     if (modulePath) {
       this.modulePath = modulePath
     }
+    console.log(`start a new orchestrator **${this.modulePath}** with process count at ` + this.processCount);
+  }
+
+  public async map(pureFunction: Function, data: any[]): Promise<any[]> {
+    const slices = this.orchestrate(data)
+    console.log(slices, 'slices')
+    const resultParts = await this._map(pureFunction, slices)
+    const results: any[] = []
+    resultParts.forEach((p) => {
+      console.log(resultParts, p, 'part');
+      // results.push(...p)
+    })
+    return results
+  }
+
+  public async reduce(reducerPureFunction: Function, data: any[]): Promise<any> {
+
+  }
+
+  /**
+   *
+   * @param pureFunction
+   * @param data  is a 2 dimension of array with same amount of process count
+   * @private
+   */
+  private async _map(pureFunction: Function, data: Array<any[]>): Promise<any[]> {
+    const results = new Array(data.length)
+    await Promise.all(
+      data.map(
+        async (partOfData, i) => {
+          const r = await this.spawn(i, pureFunction, partOfData)
+          console.log(r, '##rr')
+          // keep the result in order
+          results[r.index] = r.data
+          return r
+        }
+      )
+    )
+    console.log(results, 'results of _map')
+    return results
+  }
+
+  /**
+   * return a 2 dimension array
+   * @param data
+   */
+  private orchestrate(data: any[]): Array<any[]> {
+    return orchestrate(data, this.processCount)
   }
 
   /**
@@ -32,7 +79,7 @@ export class Orchestrator {
       const child = this.fork(pureFunction, i, i.toString())
       child.send({ data: data }, (error => {
         if (error) {
-          reject(error);
+          reject(error)
         }
       }))
       // listen for messages from forked process
@@ -44,25 +91,6 @@ export class Orchestrator {
         resolve(message)
       })
     })
-  }
-
-  public async map(pureFunction: Function, data: any[]): Promise<any[]> {
-    const results = new Array(data.length)
-    await Promise.all(
-      data.map(
-        async (item, i)=>{
-          const r = await this.spawn(i, pureFunction, item)
-          console.log(r, '##rr')
-          results[r.index] = r.data;
-          return r;
-        }
-      )
-    )
-    return results
-  }
-
-  public cleanup() {
-
   }
 
   private fork(pureFunction: Function, childIndex: number, customProcessID: string = ''): ChildProcess {
@@ -80,7 +108,6 @@ export class Orchestrator {
       console.log('process quit with code ' + code)
     })
 
-    this.children.push(childProcess)
     return childProcess
   }
 
