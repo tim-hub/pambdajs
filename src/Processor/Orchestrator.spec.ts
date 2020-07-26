@@ -15,13 +15,10 @@ describe('to test orchestrator', () => {
     function upper (a: string) {
       return a.toUpperCase()
     }
-    const data = ['a', 'b', 'c', 'E']
+    const data = ['a', 'b', 'c', 'D']
 
-    orch.map(upper, data)
-    const r = await orch.poll();
-    if (r) {
-      console.log(orch.results);
-    }
+    const r = await orch.map(upper, data)
+    console.log(r, 'r');
   })
 
 })

@@ -21,44 +21,39 @@ export class Orchestrator {
     }
   }
 
-  public map(pureFunction: Function, data: any[]) {
-    this.results = new Array(data.length)
-    for (let i = 0; i < this.results.length; i++) {
+  /**
+   * to spawn a child process worker
+   * @param i
+   * @param pureFunction
+   * @param data
+   */
+  private async spawn(i: number, pureFunction: Function, data: any[]): Promise<IResult> {
+    return new Promise((resolve, reject) => {
       const child = this.fork(pureFunction, i, i.toString())
-      child.send({ data: data[i] })
+      child.send({ data: data[i] }, (error => {
+        if (error) {
+          reject(error);
+        }
+      }))
       // listen for messages from forked process
-      child.on('message', async (message) => {
+      child.on('message', async (message, senderHandler) => {
         console.log(`Result received from worked ${message.data}`)
-        this.results[message.index] = message.data
         if (!child.killed) {
           process.kill(child.pid)
         }
+        resolve(message)
       })
-    }
-    return this.results
+    })
   }
 
-  public async poll(): Promise<boolean> {
-    return new Promise(
-      (resolve, reject) => {
-        const inter = setInterval(
-          () => {
-            if (this.children?.length && !this.children.find(
-              ps => {
-                !ps.killed
-              }
-            )) {
-              // console.log(this.results)
-              resolve(true)
-            }
-          }, 1
-        )
-        setTimeout(() => {
-          clearInterval(inter)
-          reject()
-        },100)
-      }
-    )
+  public async map(pureFunction: Function, data: any[]) {
+    this.results = new Array(data.length)
+    for (let i = 0; i < this.results.length; i++) {
+      const r =  await this.spawn(i, pureFunction, data);
+      console.log(r, '##rr')
+      this.results[r.index] = r.data;
+    }
+    return this.results
   }
 
   public cleanup() {
