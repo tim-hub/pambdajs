@@ -1,4 +1,4 @@
-import logger from '../src/logger'
+const logger = require('../src/logger')
 
 describe('run logger', () => {
   it('info a message', () => {
