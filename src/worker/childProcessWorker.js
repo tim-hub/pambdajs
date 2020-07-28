@@ -1,33 +1,39 @@
 /**
- * I am a hard working worker, lol
- * @param data:any[]
+ * I am a hard working worker, give me your CPU processor, lol
  * @returns {{data: any[], index: string}}
  */
+
+const log = (...x) => {
+  console.log(...x)
+}
+
 const childProcessWorker = (data) => {
+
   if (process.argv[2]) {
-    console.log(`Child Process ${process.argv[2]} executed`)
+    log(`Child Process ${process.argv[2]} executed`)
   } else {
-    console.log('Child Process executed')
+    log('Child Process executed')
   }
 
   const theFunction = process.env.FUNCTION
-  const theFunctionName = process.env.FUNCTION_NAME
+  const theFunctionName = process.env.FUNCTION_NAME ? process.env.FUNCTION_NAME : 'fun'
   const theIndex = process.env.INDEX
+
 
   const evalString = `
   const params = ${JSON.stringify(data)};
-` + theFunction + `;
+` + `const ${theFunctionName} = ` + theFunction + `;
   params.map((p) => (
     ${theFunctionName}(p)
   ));
   `// do the loop in an independent worker
 
-  console.log(evalString)
+  log('eval string', evalString)
   const result = eval(evalString)
-  console.log(result)
+  log(result)
   return {
     index: theIndex,
-    data: result,
+    data: result
   }
 }
 
