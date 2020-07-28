@@ -1,7 +1,8 @@
 import * as os from 'os'
 import { ChildProcess, fork, execSync } from 'child_process'
 import { slice } from '../utils/slice'
-import * as path from 'path';
+import * as path from 'path'
+import { forkAProcess } from '../utils/fork'
 
 interface IResult {
   index: number;
@@ -9,7 +10,7 @@ interface IResult {
 }
 
 export class Orchestrator {
-  modulePath: string = path.resolve( 'src/worker/childProcessWorker.js')
+  modulePath: string = path.resolve('src/worker/childProcessWorker.js')
   processCount: number = os.cpus().length
 
   constructor(processCount = os.cpus().length, modulePath?: string) {
@@ -18,7 +19,7 @@ export class Orchestrator {
     if (modulePath) {
       this.modulePath = modulePath
     }
-    console.log(`start a new orchestrator **${this.modulePath}** with process count at ` + this.processCount);
+    console.log(`start a new orchestrator **${this.modulePath}** with process count at ` + this.processCount)
   }
 
   public async map(pureFunction: Function, data: any[]): Promise<any[]> {
@@ -27,7 +28,7 @@ export class Orchestrator {
     const resultParts = await this._map(pureFunction, slices)
     const results: any[] = []
     resultParts.forEach((p) => {
-      console.log(resultParts, p, 'part');
+      console.log(resultParts, p, 'part')
       results.push(...p)
     })
     return results
@@ -94,21 +95,6 @@ export class Orchestrator {
   }
 
   private fork(pureFunction: Function, childIndex: number, customProcessID: string = ''): ChildProcess {
-    const childProcess = fork(this.modulePath, [customProcessID], {
-      env: {
-        INDEX: childIndex.toString(),
-        PROCESS_ID: customProcessID,
-        FUNCTION: pureFunction.toString(),
-        FUNCTION_NAME: pureFunction.name
-      },
-      silent: false // false stdin, stdout, and stderr of the child will be inherited from the parent
-    })
-
-    childProcess.on('close', (code: string) => {
-      console.log('process quit with code ' + code)
-    })
-
-    return childProcess
+    return forkAProcess(this.modulePath, pureFunction, childIndex, customProcessID)
   }
-
 }
