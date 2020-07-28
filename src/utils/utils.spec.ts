@@ -1,4 +1,4 @@
-import { orchestrate } from './orchestrate'
+import { slice } from './slice'
 
 describe('test utils', () => {
 
@@ -6,7 +6,7 @@ describe('test utils', () => {
   const count = 4
   it('test the orchestrate', async () => {
 
-    const r = orchestrate(data1, count)
+    const r = slice(data1, count)
     expect(r).toEqual(
       [
         ['a'],

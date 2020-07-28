@@ -1,6 +1,6 @@
 import * as os from 'os'
 import { ChildProcess, fork, execSync } from 'child_process'
-import { orchestrate } from '../utils/orchestrate'
+import { slice } from '../utils/slice'
 import * as path from 'path';
 
 interface IResult {
@@ -22,7 +22,7 @@ export class Orchestrator {
   }
 
   public async map(pureFunction: Function, data: any[]): Promise<any[]> {
-    const slices = this.orchestrate(data)
+    const slices = this.slice(data)
     console.log(slices, 'slices')
     const resultParts = await this._map(pureFunction, slices)
     const results: any[] = []
@@ -64,8 +64,8 @@ export class Orchestrator {
    * return a 2 dimension array
    * @param data
    */
-  private orchestrate(data: any[]): Array<any[]> {
-    return orchestrate(data, this.processCount)
+  private slice(data: any[]): Array<any[]> {
+    return slice(data, this.processCount)
   }
 
   /**
