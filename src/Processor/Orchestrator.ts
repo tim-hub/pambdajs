@@ -28,7 +28,7 @@ export class Orchestrator {
     const results: any[] = []
     resultParts.forEach((p) => {
       console.log(resultParts, p, 'part');
-      // results.push(...p)
+      results.push(...p)
     })
     return results
   }

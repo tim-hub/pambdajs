@@ -17,19 +17,18 @@ describe('to test orchestrator', () => {
 
     const orch2 = new Orchestrator();
     expect(orch2.processCount).toEqual(os.cpus().length);
-
   })
 
   it('test map function with a function with name', async () => {
-
-
     function upper (a: string) {
       return a.toUpperCase()
     }
-    const data = ['a', 'b', 'c', 'D', 'e']
+    const data = data1
 
     const r = await orch.map(upper, data)
-    console.log(r, 'r');
+    expect(r).toEqual(
+      data.map(d=>upper(d))
+    )
   })
 
 })
