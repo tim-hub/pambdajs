@@ -24,6 +24,9 @@ export class Orchestrator {
   }
 
   public async map(pureFunction: Function, data: any[]): Promise<any[]> {
+    if (data?.length <= 0) {
+      return data
+    }
     const slices = this.slice(data)
     logger.debug('slices', slices)
     const resultParts = await this._map(pureFunction, slices)

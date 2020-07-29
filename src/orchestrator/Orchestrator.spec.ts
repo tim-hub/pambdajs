@@ -20,11 +20,33 @@ describe('to test orchestrator', () => {
   })
 
   it('test map function with a function with name', async () => {
+    // function names are tested in worker
     function upper (a: string) {
       return a.toUpperCase()
     }
     const data = data1
+    const r = await orch.map(upper, data)
+    expect(r).toEqual(
+      data.map(d=>upper(d))
+    )
+  })
 
+  it('map with one element', async () => {
+    function upper (a: string) {
+      return a.toUpperCase()
+    }
+    const data = ['a']
+    const r = await orch.map(upper, data)
+    expect(r).toEqual(
+      data.map(d=>upper(d))
+    )
+  })
+
+  it('map with 0 element', async () => {
+    function upper (a: string) {
+      return a.toUpperCase()
+    }
+    const data: any[] = []
     const r = await orch.map(upper, data)
     expect(r).toEqual(
       data.map(d=>upper(d))
