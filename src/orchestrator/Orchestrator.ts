@@ -3,6 +3,7 @@ import { ChildProcess, fork, execSync } from 'child_process'
 import { slice } from '../utils/slice'
 import * as path from 'path'
 import { forkAProcess } from '../utils/fork'
+import logger from '../logger'
 
 interface IResult {
   index: number;
@@ -19,16 +20,15 @@ export class Orchestrator {
     if (modulePath) {
       this.modulePath = modulePath
     }
-    console.log(`start a new orchestrator **${this.modulePath}** with process count at ` + this.processCount)
+    logger.debug(`start a new orchestrator **${this.modulePath}** with process count at ` + this.processCount)
   }
 
   public async map(pureFunction: Function, data: any[]): Promise<any[]> {
     const slices = this.slice(data)
-    console.log(slices, 'slices')
+    logger.debug('slices', slices)
     const resultParts = await this._map(pureFunction, slices)
     const results: any[] = []
     resultParts.forEach((p) => {
-      console.log(resultParts, p, 'part')
       results.push(...p)
     })
     return results
@@ -50,14 +50,13 @@ export class Orchestrator {
       data.map(
         async (partOfData, i) => {
           const r = await this.spawn(i, pureFunction, partOfData)
-          console.log(r, '##rr')
           // keep the result in order
           results[r.index] = r.data
           return r
         }
       )
     )
-    console.log(results, 'results of _map')
+    logger.debug(results, 'results of _map')
     return results
   }
 
@@ -85,7 +84,7 @@ export class Orchestrator {
       }))
       // listen for messages from forked process
       child.on('message', async (message, senderHandler) => {
-        console.log(`Result received from worked ${message.data}`)
+        logger.debug(`Result received from worked ${message.data}`)
         if (!child.killed) {
           process.kill(child.pid)
         }
