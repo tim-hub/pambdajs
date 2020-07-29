@@ -23,9 +23,10 @@ const childProcessWorker = (data) => {
   const evalString = `
   const params = ${JSON.stringify(data)};
 ` + `const ${theFunctionName} = ` + theFunction + `;
-  params.map((p) => (
-    ${theFunctionName}(p)
-  ));
+  Array.prototype.map.call(
+    params,
+    ${theFunctionName}
+  );
   `// do the loop in an independent worker
 
   log('eval string', evalString)
