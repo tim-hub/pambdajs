@@ -16,7 +16,8 @@ jobs:
 
     strategy:
       matrix:
-        node-version: [10.x, 12.x, 14.x]
+        node-version: [14.x]
+#        node-version: [10.x, 12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -25,8 +26,19 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
+    - run: npm test
     - run: npm run build --if-present
-    - run: npm install -g codecov
-    - run: npm test && codecov
+#    - run: npm run semantic-release
+#      env:
+#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+#        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+#        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: dist
+        path: dist
+#        upload code cov report
+    - run: npm install -g codecov && codecov
       env:
         CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

@@ -6,6 +6,7 @@
   "main": "dist/index.umd.js",
   "module": "dist/index.es5.js",
   "typings": "dist/types/index.d.ts",
+  "repository.url": "https://github.com:tim-hub/pambda.js",
   "files": [
     "dist"
   ],
@@ -31,7 +32,9 @@
     "semantic-release": "semantic-release",
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
-    "travis-deploy-once": "travis-deploy-once"
+    "travis-deploy-once": "travis-deploy-once",
+    "prepush": "npm run test && npm run build",
+    "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "lint-staged": {
     "{src,test}/**/*.ts": [
@@ -109,7 +112,7 @@
     "rollup-plugin-node-resolve": "3.4.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "rollup-plugin-typescript2": "0.27.1",
-    "semantic-release": "15.14.0",
+    "semantic-release": "^17.1.1",
     "shelljs": "0.8.4",
     "travis-deploy-once": "5.0.11",
     "ts-jest": "23.10.5",
