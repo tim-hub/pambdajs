@@ -7,7 +7,7 @@ import json from 'rollup-plugin-json'
 
 const pkg = require('./package.json')
 
-const libraryName = 'pambda'
+const libraryName = 'pambda.js'
 
 export default {
   input: `src/${libraryName}.ts`,

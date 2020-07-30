@@ -1,14 +1,14 @@
-import DummyClass from "../src/pambda"
+import Orchestrator from '../src/pambda.js'
 
 /**
  * Dummy test
  */
-describe("Dummy test", () => {
-  it("works if true is truthy", () => {
+describe('Dummy test', () => {
+  it('works if true is truthy', () => {
     expect(true).toBeTruthy()
   })
 
-  it("DummyClass is instantiable", () => {
-    expect(new DummyClass()).toBeInstanceOf(DummyClass)
+  it('class can be instantiable', () => {
+    expect(new Orchestrator()).toBeInstanceOf(Orchestrator)
   })
 })
