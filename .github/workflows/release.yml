@@ -1,23 +1,22 @@
 # This workflow will do a clean install of node dependencies, build the source code and run tests across different versions of node
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
 
-name: Node.js CI
+name: Release
 
 on:
   push:
-    branches: [ master ]
+    branches: [ master, next ]
   pull_request:
-    branches: [ master ]
+    branches: [ master, next ]
 
 jobs:
-  build:
+  release:
 
     runs-on: ubuntu-latest
 
     strategy:
       matrix:
         node-version: [14.x]
-#        node-version: [10.x, 12.x, 14.x]
 
     steps:
     - uses: actions/checkout@v2
@@ -26,19 +25,15 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - run: npm ci
-    - run: npm test
     - run: npm run build --if-present
-#    - run: npm run semantic-release
-#      env:
-#        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-#        GH_TOKEN: ${{ secrets.GH_TOKEN }}
-#        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+    - name: Release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        GH_TOKEN: ${{ secrets.GH_TOKEN }}
+        NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      run: npx semantic-release
     - name: Upload Artifacts
       uses: actions/upload-artifact@v2
       with:
         name: dist
         path: dist
-#        upload code cov report
-    - run: npm install -g codecov && codecov
-      env:
-        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
