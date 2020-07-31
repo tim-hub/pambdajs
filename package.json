@@ -1,6 +1,6 @@
 {
   "name": "pambda.js",
-  "version": "0.0.1",
+  "version": "0.0.1-next",
   "description": "",
   "keywords": [],
   "main": "dist/index.umd.js",
@@ -33,7 +33,7 @@
     "semantic-release-prepare": "ts-node tools/semantic-release-prepare",
     "precommit": "lint-staged",
     "travis-deploy-once": "travis-deploy-once",
-    "prepush": "npm run test && npm run build",
+    "prepush": "echo 'npm run test && npm run build'",
     "commitmsg": "commitlint -E HUSKY_GIT_PARAMS"
   },
   "lint-staged": {
@@ -112,7 +112,7 @@
     "rollup-plugin-node-resolve": "3.4.0",
     "rollup-plugin-sourcemaps": "0.4.2",
     "rollup-plugin-typescript2": "0.27.1",
-    "semantic-release": "^17.1.1",
+    "semantic-release": "17.1.1",
     "shelljs": "0.8.4",
     "travis-deploy-once": "5.0.11",
     "ts-jest": "23.10.5",
@@ -125,5 +125,8 @@
   },
   "dependencies": {
     "winston": "^3.3.3"
+  },
+  "release": {
+    "branches": ["master", "next"]
   }
 }
