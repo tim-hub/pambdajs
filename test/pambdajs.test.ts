@@ -1,4 +1,4 @@
-import Orchestrator from '../src/pambda.js'
+import Orchestrator from '../src/pambdajs'
 
 /**
  * Dummy test
