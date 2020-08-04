@@ -1,6 +1,6 @@
 import * as path from 'path'
-import logger from '../../logger'
-import { forkAProcess } from '../../utils/fork'
+import logger from '../logger'
+import { forkAProcess } from '../utils/fork'
 
 /**
  * similar to orchestrator fork and spawn function, here to use for testing child worker js
