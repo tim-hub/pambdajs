@@ -38,6 +38,7 @@ export class Orchestrator {
     })
     return results
   }
+
   //
   // public async reduce(reducerPureFunction: Function, data: any[]): Promise<any> {
   //
