@@ -11,14 +11,14 @@ interface IResult {
 }
 
 export class Orchestrator {
-  modulePath: string = path.resolve(__dirname, 'childProcessWorker.js')
+  modulePath: string = path.resolve(__dirname, '../worker/childProcessWorker.js')
   processCount: number = os.cpus().length
 
-  constructor(processCount = os.cpus().length, modulePath?: string) {
+  constructor(processCount = os.cpus().length, workerPath?: string) {
     this.processCount = processCount
 
-    if (modulePath) {
-      this.modulePath = modulePath
+    if (workerPath) {
+      this.modulePath = workerPath
     }
     logger.debug(
       `start a new orchestrator **${this.modulePath}** with process count at ` + this.processCount

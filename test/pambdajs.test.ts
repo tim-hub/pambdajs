@@ -1,4 +1,5 @@
-import Orchestrator from '../src/pambdajs'
+import { init } from '../src/pambdajs'
+import { Orchestrator } from '../src/orchestrator/Orchestrator'
 
 /**
  * Dummy test
@@ -9,6 +10,6 @@ describe('Dummy test', () => {
   })
 
   it('class can be instantiable', () => {
-    expect(new Orchestrator()).toBeInstanceOf(Orchestrator)
+    expect(init()).toBeInstanceOf(Orchestrator)
   })
 })
