@@ -2,7 +2,10 @@
   "name": "pambdajs",
   "version": "0.0.0-development",
   "description": "",
-  "keywords": ["multi-processing", "child_process"],
+  "keywords": [
+    "multi-processing",
+    "child_process"
+  ],
   "main": "dist/index.umd.js",
   "module": "dist/index.es5.js",
   "typings": "dist/types/index.d.ts",

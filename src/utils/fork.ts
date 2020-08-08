@@ -1,16 +1,22 @@
 import { ChildProcess, fork } from 'child_process'
 import logger from '../logger'
 
-export const forkAProcess = (modulePath: string, pureFunction: Function, childIndex: number, customProcessID: string = ''): ChildProcess => {
+export const forkAProcess = (
+  modulePath: string,
+  pureFunction: Function,
+  childIndex: number,
+  customProcessID: string = ''
+): ChildProcess => {
   let fun = pureFunction
   const childProcess = fork(modulePath, [customProcessID], {
     env: {
       INDEX: childIndex.toString(),
       PROCESS_ID: customProcessID,
       FUNCTION: fun.toString(),
-      FUNCTION_NAME: fun.name
+      FUNCTION_NAME: fun.name,
+      ...process.env, // pass parent process env to child
     },
-    silent: false // false stdin, stdout, and stderr of the child will be inherited from the parent
+    silent: false, // false stdin, stdout, and stderr of the child will be inherited from the parent
   })
 
   childProcess.on('close', (code: string) => {

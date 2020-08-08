@@ -4,7 +4,9 @@
  */
 
 const log = (...x) => {
-  console.log(...x)
+  if (process.env.LOG_LEVEL === 'debug') {
+    console.log(...x)
+  }
 }
 
 const childProcessWorker = (data) => {
