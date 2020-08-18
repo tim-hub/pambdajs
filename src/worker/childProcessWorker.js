@@ -22,14 +22,16 @@ const childProcessWorker = (data) => {
   const theIndex = process.env.INDEX
   const theWorkType = process.env.WORK_TYPE
 
-
-  const evalString = `const params = ${JSON.stringify(data)};`
-    + `const ${theFunctionName} = ` + theFunction + `;
-  Array.prototype.map.call(
-    params,
-    ${theFunctionName}
-  );
-  `
+  let evalString = `const params = ${JSON.stringify(data)};`
+    + `const ${theFunctionName} = ` + theFunction ;
+  if (theWorkType === 'FILTER') {
+    evalString += `; Array.prototype.map.call(params, ${theFunctionName});`;
+  } else if (theWorkType === 'REDUCE') {
+    evalString +=  `; Array.prototype.reduce.call(params,${theFunctionName});`
+  } else {
+    // by default MAP
+    evalString +=  `; Array.prototype.filter.call(params,${theFunctionName});`
+  }
 
   const result = eval(evalString)
   return {
