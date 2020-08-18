@@ -10,30 +10,28 @@ const log = (...x) => {
 }
 
 const childProcessWorker = (data) => {
-
-  if (process.argv[2]) {
-    log(`Child Process ${process.argv[2]} executed`)
-  } else {
-    log('Child Process executed')
-  }
+  //
+  // if (process.argv[2]) {
+  //   log(`Child Process ${process.argv[2]} executed`)
+  // } else {
+  //   log('Child Process executed')
+  // }
 
   const theFunction = process.env.FUNCTION
   const theFunctionName = process.env.FUNCTION_NAME ? process.env.FUNCTION_NAME : 'fun'
   const theIndex = process.env.INDEX
+  const theWorkType = process.env.WORK_TYPE
 
 
-  const evalString = `
-  const params = ${JSON.stringify(data)};
-` + `const ${theFunctionName} = ` + theFunction + `;
+  const evalString = `const params = ${JSON.stringify(data)};`
+    + `const ${theFunctionName} = ` + theFunction + `;
   Array.prototype.map.call(
     params,
     ${theFunctionName}
   );
-  `// do the loop in an independent worker
+  `
 
-  log('eval string', evalString)
   const result = eval(evalString)
-  log(result)
   return {
     index: theIndex,
     data: result
