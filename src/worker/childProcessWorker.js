@@ -25,12 +25,12 @@ const childProcessWorker = (data) => {
   let evalString = `const params = ${JSON.stringify(data)};`
     + `const ${theFunctionName} = ` + theFunction ;
   if (theWorkType === 'FILTER') {
-    evalString += `; Array.prototype.map.call(params, ${theFunctionName});`;
+    evalString += `; Array.prototype.filter.call(params, ${theFunctionName});`;
   } else if (theWorkType === 'REDUCE') {
     evalString +=  `; Array.prototype.reduce.call(params,${theFunctionName});`
   } else {
     // by default MAP
-    evalString +=  `; Array.prototype.filter.call(params,${theFunctionName});`
+    evalString +=  `; Array.prototype.map.call(params,${theFunctionName});`
   }
 
   const result = eval(evalString)
