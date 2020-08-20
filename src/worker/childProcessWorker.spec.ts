@@ -1,16 +1,22 @@
 import * as path from 'path'
 import logger from '../logger'
-import { forkAProcess } from '../utils/fork'
+import { forkAProcess, WORK_TYPE } from '../utils/fork'
 
 /**
  * similar to orchestrator fork and spawn function, here to use for testing child worker js
- * @param upper
+ * @param fun
  * @param thePath
  * @param data
+ * @param workType
  */
-const testFork = async (fun: Function, thePath: string, data: any[]) => {
+const testFork = async (
+  fun: Function,
+  thePath: string,
+  data: any[],
+  workType: WORK_TYPE = WORK_TYPE.MAP
+) => {
   const thePureFunction = fun
-  const process0 = forkAProcess(thePath, thePureFunction, 0)
+  const process0 = forkAProcess(thePath, thePureFunction, 0, '0', workType)
   return new Promise((resolve, reject) => {
     process0.send({ data: data }, (error) => {
       if (error) {
@@ -84,5 +90,17 @@ describe('work in paraller properly', () => {
     // @ts-ignore
     expect(parseInt(r.index, 10)).toBeGreaterThanOrEqual(0)
     expect(data).toEqual(data1.map((d) => d.toUpperCase()))
+  })
+
+  it('filter, test to fork a child process to', async () => {
+    const upperFilter = (a: string) => {
+      return a.toUpperCase() === a
+    }
+    const r = await testFork(upperFilter, thePath, data1, WORK_TYPE.FILTER)
+    // @ts-ignore
+    const data = r.data
+    // @ts-ignore
+    expect(parseInt(r.index, 10)).toBeGreaterThanOrEqual(0)
+    expect(data).toEqual(data1.filter(upperFilter))
   })
 })

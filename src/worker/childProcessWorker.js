@@ -27,7 +27,7 @@ const childProcessWorker = (data) => {
   if (theWorkType === 'FILTER') {
     evalString += `; Array.prototype.filter.call(params, ${theFunctionName});`;
   } else if (theWorkType === 'REDUCE') {
-    evalString +=  `; Array.prototype.reduce.call(params,${theFunctionName});`
+    evalString +=  `; Array.prototype.reduce.call(params, ${theFunctionName});`
   } else {
     // by default MAP
     evalString +=  `; Array.prototype.map.call(params,${theFunctionName});`
