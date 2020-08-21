@@ -80,11 +80,11 @@ export class Orchestrator {
    * @private
    */
   private async _filter(pureFunction: Function, data: Array<any[]>): Promise<any[]> {
-    const results = new Array(data.length)
+    const results: any[] = []
     await Promise.all(
-      data.filter(async (partOfData, i) => {
+      data.map(async (partOfData, i) => {
         const r = await this.spawn(i, pureFunction, partOfData, WORK_TYPE.FILTER)
-        results[r.index] = r.data
+        results.push(r.data)
         return r
       })
     )
