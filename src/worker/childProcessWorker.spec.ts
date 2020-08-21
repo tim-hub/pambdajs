@@ -92,7 +92,7 @@ describe('work in paraller properly', () => {
     expect(data).toEqual(data1.map((d) => d.toUpperCase()))
   })
 
-  it('filter, test to fork a child process to', async () => {
+  it('filter, test to fork a child process', async () => {
     const upperFilter = (a: string) => {
       return a.toUpperCase() === a
     }
@@ -102,5 +102,19 @@ describe('work in paraller properly', () => {
     // @ts-ignore
     expect(parseInt(r.index, 10)).toBeGreaterThanOrEqual(0)
     expect(data).toEqual(data1.filter(upperFilter))
+  })
+
+  it('reduce, test to fork a child process', async () => {
+    const reduceFun = (a: string, b: string) => {
+      return b.toLowerCase() === b ? a + b : a
+    }
+    const r = await testFork(reduceFun, thePath, data1, WORK_TYPE.REDUCE)
+    // @ts-ignore
+    const data = r.data
+    // @ts-ignore
+    expect(parseInt(r.index, 10)).toBeGreaterThanOrEqual(0)
+
+    const result = data1.reduce(reduceFun)
+    expect(data).toEqual(result)
   })
 })
