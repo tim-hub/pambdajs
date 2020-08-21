@@ -1,5 +1,6 @@
 /**
  * I am a hard working worker, give me your CPU processor, lol
+ * todo, minimise this function for better performance
  * @returns {{data: any[], index: string}}
  */
 
