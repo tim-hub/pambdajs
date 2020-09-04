@@ -23,7 +23,7 @@ const singleProcess = () => {
 
 // PambdaJS multi process way
 const pambdaProcess = async () => {
-  await p.map(heavyWork, cb);
+  await p.map(heavyWork, data);
 }
 ```
  
