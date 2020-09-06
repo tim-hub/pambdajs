@@ -126,9 +126,7 @@
     "typedoc": "0.17.8",
     "typescript": "3.9.7"
   },
-  "dependencies": {
-    "winston": "^3.3.3"
-  },
+  "dependencies": {},
   "release": {
     "branches": [
       "+([0-9])?(.{+([0-9]),x}).x",

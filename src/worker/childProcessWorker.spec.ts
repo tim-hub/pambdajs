@@ -1,5 +1,4 @@
 import * as path from 'path'
-import logger from '../logger'
 import { forkAProcess, WORK_TYPE } from '../utils/fork'
 
 /**
@@ -24,7 +23,7 @@ const testFork = async (
       }
     })
     process0.on('message', async (message, senderHandler) => {
-      logger.debug(`Result received from worked ${message.data}`)
+      console.log(`Result received from worked ${message.data}`)
       if (!process0.killed) {
         process.kill(process0.pid)
       }
