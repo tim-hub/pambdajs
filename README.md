@@ -1,4 +1,4 @@
-# PambdaJS - Empower Multi-Process Easily
+# PambdaJS - Make Multi-Process Easily
 [![npm version](https://badge.fury.io/js/pambdajs.svg)](https://www.npmjs.com/package/pambdajs) ![TEST Passing](https://github.com/tim-hub/pambdajs/workflows/Test/badge.svg) [![codecov](https://codecov.io/gh/tim-hub/pambdajs/branch/master/graph/badge.svg)](https://codecov.io/gh/tim-hub/pambdajs)
 >  Parallelized Lambda, a wrapper to help run lambda/anonymous function in parallel easily. 
 
