@@ -1,4 +1,4 @@
-# PambdaJS 
+# PambdaJS - Empower Multi-Process Easily
 [![npm version](https://badge.fury.io/js/pambdajs.svg)](https://www.npmjs.com/package/pambdajs) ![TEST Passing](https://github.com/tim-hub/pambdajs/workflows/Test/badge.svg) [![codecov](https://codecov.io/gh/tim-hub/pambdajs/branch/master/graph/badge.svg)](https://codecov.io/gh/tim-hub/pambdajs)
 >  Parallelized Lambda, a wrapper to help run lambda/anonymous function in parallel easily. 
 
@@ -56,12 +56,14 @@ const heavyWork = (x) => {
 ```
 
 ## Performance
+- PambdaJS can save up to 55% of processing time. (Diagram ↓)
+
 ![PambdaJS performance](https://i.imgur.com/F2HfHwF.png)
 As you can see the above. 
-The best case to repeat summing 10k number 100k times, 
+- The best case to repeat summing 10k number 100k times, 
 is to spawn 5 child process, and **it saves more than hald of time than single process.**
 
-Besides, for simple work, multi process does not help at all.
+- Besides, for simple work, multi process does not help at all.
 So make sure usig PambdaJS for heavy work only. ([more diagrams](https://pambdajs-performance.vercel.app/))
 
 ## FAQ
