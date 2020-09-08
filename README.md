@@ -84,9 +84,11 @@ but you can try [web worker](https://developer.mozilla.org/en-US/docs/Web/API/We
 - [What is Lambda Function](https://stackoverflow.com/questions/16501/what-is-a-lambda-function)
 - Other solutions for better performance
     - [Child Process](https://nodejs.org/api/child_process.html)
+    - [GPU.js](https://gpu.rocks/)
     - [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) for multi threading. **We all love MDN!!!**
-    - [Gpu.js](https://gpu.rocks/)
-    - [ncpu](https://github.com/zy445566/ncpu) A multi thread wrapper
+    - Based on Web Worker/ Multi Thread
+        - [ncpu](https://github.com/zy445566/ncpu)
+        - microsoft [napajs](https://github.com/microsoft/napajs)
 - Relative Repos
     - [PambdaJS Playground](https://github.com/tim-hub/pambdajs-playground) - the place to use pambdajs to run some simple sample work
     - [PambdaJS Performance Analyse](https://github.com/tim-hub/pambdajs-performance) - using Chart.js to generate the diagrams
