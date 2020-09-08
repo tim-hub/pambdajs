@@ -1,4 +1,4 @@
-# PambdaJS - Make Multi-Process Easily
+# PambdaJS - Multi-Process Has Never Been This Easy
 [![npm version](https://badge.fury.io/js/pambdajs.svg)](https://www.npmjs.com/package/pambdajs) ![TEST Passing](https://github.com/tim-hub/pambdajs/workflows/Test/badge.svg) [![codecov](https://codecov.io/gh/tim-hub/pambdajs/branch/master/graph/badge.svg)](https://codecov.io/gh/tim-hub/pambdajs)
 >  Parallelized Lambda, a wrapper to help run lambda/anonymous function in parallel easily. 
 
@@ -86,6 +86,7 @@ but you can try [web worker](https://developer.mozilla.org/en-US/docs/Web/API/We
     - [Child Process](https://nodejs.org/api/child_process.html)
     - [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API/Using_web_workers) for multi threading. **We all love MDN!!!**
     - [Gpu.js](https://gpu.rocks/)
+    - [ncpu](https://github.com/zy445566/ncpu) A multi thread wrapper
 - Relative Repos
     - [PambdaJS Playground](https://github.com/tim-hub/pambdajs-playground) - the place to use pambdajs to run some simple sample work
     - [PambdaJS Performance Analyse](https://github.com/tim-hub/pambdajs-performance) - using Chart.js to generate the diagrams
