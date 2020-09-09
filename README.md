@@ -44,7 +44,7 @@ const heavyWork = (x) => {
     return x+x;
 }
 ```
-```
+```javascript
 // bad
 const sumItSelf = (x) => {
     return x + x;
