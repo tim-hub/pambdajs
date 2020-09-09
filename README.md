@@ -43,8 +43,8 @@ for example:
 const heavyWork = (x) => {
     return x+x;
 }
-
-
+```
+```
 // bad
 const sumItSelf = (x) => {
     return x + x;
