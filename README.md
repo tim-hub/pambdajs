@@ -61,7 +61,7 @@ const heavyWork = (x) => {
 ![PambdaJS performance](https://i.imgur.com/F2HfHwF.png)
 As you can see the above. 
 - The best case to repeat summing 10k number 100k times, 
-is to spawn 5 child process, and **it saves more than hald of time than single process.**
+is to spawn 5 child process, and **it saves more than half of time than single process.**
 
 - Besides, for simple work, multi process does not help at all.
 So make sure usig PambdaJS for heavy work only. ([more diagrams](https://pambdajs-performance.vercel.app/))
